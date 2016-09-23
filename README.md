@@ -22,17 +22,28 @@
 - 예시
 ```
 So, what's in iOS?  
+
 iOS안에는 뭐가 있을까?  
+
 You all know what's in iOS from a user standpoint.
+
 너는 유저 관점으로 무엇이 있는지 모두 알고 있다
+
 I'm sure, you've used. all used iOS. So what's kind of under the covers? What are the programming APIs?
+
 너가 사용해왔었다는 것을 확신한다. 이런 커버 아래에 뭐가 있을까? 프로그래밍 API는 무엇을까?
+
 Everyone know what the words API means? That basically programming interface, it's the function and methods,
 and classes that we use to make an iOS app work.
+
 모두들 API 단어의 뜻을 알고 있는가? 이건 기본적인 프로그래밍 인터페이스이다. 함수, 메소드 , 클래스. iOS 앱을 작동시키도록 우리가 사용하는.
+
 So what are those APIs that we use?
+
 우리가 이용해야할 API들은 무엇일까?
+
 Well they are huge. Okay, there's so much of it
+
 매우 많다. 많은 것들이 있다.
 ```
 
