@@ -2,7 +2,7 @@
 
 # 아이오에스
 
-한글로 구글링하자, [한글링](hangling.org)에서 번역중인 아이오에스 강의입니다
+한글로 구글링하자, [한글링](http://hangling.org)에서 번역중인 아이오에스 강의입니다
 
 
 ## 번역에 참여하는 방법!(Contributing)
@@ -14,7 +14,7 @@
 
 ---
 
-- 참여해주신 분들 모두 한글링 [웹페이지](hangling.org) 고마운분들리스트에 올라갈 예정입니다!
+- 참여해주신 분들 모두 한글링 [웹페이지](http://hangling.org) 고마운분들리스트에 올라갈 예정입니다!
 - 위의 강의록은 편집되어서 한글링 유튜브와 한글링 웹페이지에 게시됩니다
 
 
@@ -29,16 +29,16 @@ iOS안에는 뭐가 있을까?
 
 You all know what's in iOS from a user standpoint.
 
-너는 유저 관점으로 무엇이 있는지 모두 알고 있다
+너는 유저 관점으로 무엇이 있는지 모두 알고 있어
 
 I'm sure, you've used. all used iOS. So what's kind of under the covers? What are the programming APIs?
 
-너가 사용해왔었다는 것을 확신한다. 이런 커버 아래에 뭐가 있을까? 프로그래밍 API는 무엇을까?
+사용해왔었다는 것을 확신해. 이런 커버 아래에 뭐가 있을까? 프로그래밍 API는 무엇을까?
 
 Everyone know what the words API means? That basically programming interface, it's the function and methods,
 and classes that we use to make an iOS app work.
 
-모두들 API 단어의 뜻을 알고 있는가? 이건 기본적인 프로그래밍 인터페이스이다. 함수, 메소드 , 클래스. iOS 앱을 작동시키도록 우리가 사용하는.
+모두들 API 단어의 뜻을 알고 있어? 이건 기본적인 프로그래밍 인터페이스스야. 함수, 메소드 , 클래스. iOS 앱을 작동시키도록 우리가 사용하는.
 
 So what are those APIs that we use?
 
@@ -46,7 +46,7 @@ So what are those APIs that we use?
 
 Well they are huge. Okay, there's so much of it
 
-매우 많다. 많은 것들이 있다.
+매우 많아. 많은 것들이 있지.
 ```
 
 
