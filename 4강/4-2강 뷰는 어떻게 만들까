@@ -1,0 +1,251 @@
+All right, creating views,
+
+okay, most of the time you're creating views
+
+in your storyboard by draggin them out
+
+Now if you have a custom view that's drawing
+
+something custom, like today we're gonna do a thing
+
+where we draw a face view, it gonna be a view Okay
+
+Looks like this, got a coupple eyes. Smiley face,
+
+okay? I'm drawing, it's got a skull there. When
+
+I'm drawing this, there's no face view in the
+
+object palate, right? I can't drag that out
+
+into my storyboard. So, how do I get my face view
+
+to appear somewhere in my storyboard. Well, the
+
+answer is, I'm going to drag out a generic view, okay,
+
+a generic UI view, unsubclassed UI view, and then
+
+I'm going to change it, edit it in this identity inspector
+
+which I'll show you in the demo to to change the class of
+
+it, so it's a subclass of UI view. And it's in that
+
+subclass of UI ivew that I'm gonna put all my drawing code,
+
+all my face drawing code, okay? Now on rare occasion
+
+you will create a view in code, okay. You do that just
+
+by doing, calling UIView's liitle constructor here.
+
+You're gonna use the one with frame, not the one with coder,
+
+okay. You can do UIView with no arguments,
+
+that means the tiny little UIView.
+
+You'll have to set it's frame otherwise
+
+So here's what it looks like to create a view in code.
+
+Here I just created a rectangle which is 20/20, 150.
+
+So that's like 20, 20, 150. So this is this rectangle
+
+right about there and the, so
+
+then I'm creating a view. This view happends to be a UI label.
+
+UI label is just a sub class UI view.
+
+So it's UI button, so it's UI stack view. All of these
+
+things are just subclasses of UI view. So I'm creating a sub
+
+class UIView using that frame thing okay? I'm even setting
+
+the labels text, all right? Then I'm goning to say view,
+
+let's say this code is in the view controller, say view.
+
+Which is that top-level thing add subview the label and then all
+
+of a sudden it's gonna appear here, okay? Here's that 20, 20
+
+And it's 100 by 50, okay? That it. Very simple to add views with code
+
+Add subview. All right custom views.  So why would I want to create
+
+my own custom view subclass? Obviously you want to have a smiley face, okay?
+
+So you need to create your own custom one to do that. And
+
+you might have some pinches or swipes or something, which we'll do
+
+next week. For your face, you need a custom view to do those things,
+
+okay? So let's talk about the drawing end of that today. How do
+
+I draw? It's really easy. You're just gonna subclass UIView and
+
+you're gonna override this one method, drwaRect, okay?
+
+DrawRect takes one argument, which is an optimization only,
+
+which is what part of the view the system want you to draw.
+
+It might want you to draw the whole thing. But maybe it just wants
+
+you to draw the eyes, okay? Now you can ignore that and
+
+draw the whole thing anyway, and it will work. Or if you can
+
+efficiently just draw the eyes, then you might decide to just
+
+draw the eyes, okay. But this argument right here is purely an
+
+optimization. It can be ignord if you want. Okay, never call this
+
+method. If you ever call this method in the code you submit for
+
+homework, I'll be personally going over and slapping you on the wrist
+
+okay? Because this, this is never, ever, under any circumstances
+
+no exceptions are you calling this thing. The system calls drawRect
+
+You never call it. So, how do you get your face to draw?
+
+If you want it drawn. Let say the eye is closed. And you want to
+
+draw the face so the eyes are closed. Well you call this method
+
+here set needs display on your view. And that tells the system,
+
+'hey this view needs to be redrawn' . And the view at some point
+
+in the future when its appropriate, will call you drawRect, okay?
+
+Now why is it done this way? Well if you think about it. Your
+
+view lives in an environmnet where there might be subviews and
+
+you're in Superview, and they're overlapping. There's all kinds of
+
+things happening. And you can't just run along and redraw one of
+
+those things okay they might be transparent, seeing through to
+
+each othre, the system has to manage that, okay and there also
+
+performance reasons to do it. You might change, close the eyes,
+
+start frowning, etc, the nose starts running, I don't know, all
+
+those things are happening all at once, we don't wanna redraw every
+
+single time. The one of them changes. You wanna wait until all
+
+of them has changed, then draw once your new face, okay?
+
+So the system is the one that decides. Now this is setNeedsDisplay()
+
+in Rect. Just lets you set this little rectangle right here
+
+So this is an optimized version, an optimized version of
+
+setNeedsDisplay() in Rect. Maybe just call it with the eyes. Okay
+
+if you know that only the eyes have changed. But this is how you get
+
+a view to redraw, okay? All right, so how do I implement this
+
+drawRect thing? okay? I got this drawRect thing, how do I
+
+implement it? There's two ways, really. There is a, kind of a
+
+C-like, a non-object oriented. In Swift, it's just functions,
+
+global functions way of doing it called Core Graphics. Okay?
+
+Core graphics and then there's an object oriented way
+
+using a class called UIBezierPath, okay? They're bot using
+
+Core Graphics underneath the covers so I'm gonna talk a
+
+little bit about the Core Graphics Concepts and
+
+they're going to apply to UIBezierPath as you can see.
+
+So what are the concepts of Core Graphics? Very Simple.
+
+First, you're gonna get a context to draw in. So that context
+
+might be drawing on screen. That's the context you want
+
+if you're in drawRect, But you could have other contexts like
+
+drawing for a printer, drawing into an off screen buffer, okay?
+
+Thos are all contexts of draw so that's the first thing you do.
+
+In if you're using this kind of C-like function one
+
+you're gonna use this UIGraphicsGetCurrentContext() inside of
+
+drawRect to get the context appropriate for drawRect, okay?
+
+So then number two is you create paths. So these paths are
+
+made of arcs and lines, rectangles, circles, whatever. You're
+
+putting together these Paths, this path that you're building, okay?
+
+And that's the thing that's gonna be drawn, okay?
+
+So you build this path. Then you set attributes that you're
+
+gonna draw this path with like, the color of the lines.
+
+Any fonts if you're doing text. Textures if you're filling
+
+things with textures. Linewidths, linecaps, those kinds of
+
+things. You set all those things up and then you stroke the path
+
+which means draw a line everywhere the path is or
+
+you fill the path which means fill in the space
+
+contained by the path with some color or texture, okay?
+
+That's it, this is the basic concept of how you draw.
+
+Now UIBezierPath does all these things the same, okay?
+
+Its just that UIBezierPath automatically know the context
+
+to draw in so you don't have to worry about context. It has
+
+methods to draw. Lineto, arcsto, those kind of things instead of
+
+having discrete functions. You know these global functions
+
+You use UIColor to set the stroke and fill colors. This is a
+
+class we'll talk about and then when it comes to stroke and fill,
+
+those are methods on UIBezierPath. So UIBezierPath just encapsulates
+
+all that core graphics stuff into a nice class. It's nice because
+
+you can find everything you want. Basically everything you
+
+want to do to draw except for colors, fonts, texts, and imgaes.
+
+Those four things are not in UIBezierPath but all other drawing
+
+is in there.
