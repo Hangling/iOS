@@ -1,0 +1,211 @@
+Okay so let's go back to the slides and talk a little bit about gestures and then we'll come back and add some gestures
+
+to our face right here? Okay. so we saw last time how to draw in a view. We drew the mouth, we drew the eyes, we did the eyebrows
+
+all these things we know how to do that pretty much right. We use UIBezierPath in our drawRect, not too hard. What about gestures?
+
+Okay? So this is input from the user on the screen. Now, we can get the location and movement of every single finger that touches
+
+down on the screen that's possible okay? There is an API for doing that but, we virtually never do that ever. Why don't we do that?
+
+The reason for that is that the user thinks of interacting with your UI as a gesture like they're swiping or they're pinching okay?
+
+or they're panning around. Those are gestures that they are making so iOS has an abstraction layer that lets you app think of the input
+
+as gestures as well, okay? So, you're gonna get those gestures and do somthing when they happen there's predefined gestures. The great
+
+thing about that is a swipe is exactly the same thing in every single app. Okay? It's like you know the speed of swiping and how far you
+
+have to swipe, all that's exactly the same in every single app because every single app is using these gestures, okay? If you had to do
+
+you're own swipe, you know did the person swipe fast enough? or was that a pan? you have to do all that logic yourself would be a pain
+
+in the neck and will be inconsistent between applications okay? So, gestures are recognized, by instances of a class called UIGestureRecognizer
+
+okay? Good name, but UIGestureRecognizer itself is abstract. You never actually instantiate one instead there are a bunch of subclasses of
+
+UIGestureRecognizer and those are what you instantiate to get the kind of gestures you want. So there's pan gestureRecognizer and pinch gesture
+
+Recognizer and tap and swipe gesture recognizer etc, okay? Now when you want to use a recognizer there's really two parts to it, okay? One,
+
+you have to get some UIView to take on this gesture recognizer and recognize that gesture. So there's the gesture recognition part which
+
+is done by creating a gesture recognizer and then asking a view to use it. Only views can recognize gestures not controllers. They can't recognize
+
+only views, okay? So part one is to create the gesture recognizer you want, configure it how you want, and ask some view, please start recognizing
+
+this, okay? Then part two is, what if the recognizer does recognize it? Then it needs to have that handled somehow and that's done with a gesture
+
+handler. So you got recognizers and gesture handlers okay? And the handler is called as the recognizer goes through a basically a state machine of
+
+recognizing this gesture. We'll talk about what that state machine looks like but it's gonna be called repeatedly. The handler's gonna be called
+
+repeatedly as gesture goes through the process of being recognized and moving and all the things it does, okay? Now usually the first of these things
+
+the creating of a recognizer and adding it to some view, its usually done by your controller. It doesn't have to be done by your controller, but it's
+
+a good way for your controller to essentially turn on that gesture in one of it's views okay? The views are the minion of the controller anyway so
+
+the controller wants to control its minions so it might usually be the one that wants to add the gesture recognizer to the view, but some views, the
+
+gesture recognition is so fundamental to who they are, that they added them themselves. For example, scrollView, okay? What would a scrollView be
+
+without a pan gesture to scroll up and down? it would be useless. It wouldn't even be a scrollView anymore so scrollView adds a pan gesture recognizer
+
+and a pinch gesture recognizer to itself. Probably in its initializer okay? But lot of the times it's your controller that's adding the gesture
+
+again, the controller can't do the recognition of a gesture, only a view with a gesture recognizer can but the controller can add that gesture recognizer
+
+create and add the gesture recognizer to one of its views in its view okay? The second thing that handler, that handles it? Well that could be handled by
+
+the controller, or it might be handled by the view, could even be handled by someone else would never be handled by a model because UI independent
+
+but it could be anyone in the controller or view camps can handle it. Generally, kind of, it the thing that the gesture is doing is only modifying
+
+how the view displays itself, like in our face view, it was just the scale of the view or maybe somehow it's chaning the color of the view, then the view
+
+is probably going to handle the gesture. Okay? Its going to both recognize it with the recognizers and handle it. But if the gesture's changing the model
+
+then definately the controller would be the handler. You see why that is? Because the view can't see the model. Okay? But the controller can. So the controller
+
+would set it self as the recognizer of anything that's  going to affect the model. And we'll see that in the demo as well. Okay. So how do we add a gesture t
+
+UIView? We decided we want a view in this case let's say to recognize pan okay? A pan is putting your finger down on the screen and moving it around without
+
+lifting it up. When you lift it up, the pan is over. Okay? That's what a pan is, basically panning your finger around on the screen. Alright? So what if we
+
+wanted to do that? Well one place so we have to somewhere in our controller code add a pan gesture recognizer to the veiw that we want the paninng to happen in
+
+okay? Well a great place to do that is in that didSet okay? of the outlet because as soon as that view we want to pan, as soon as we get a pointer to it,
+
+let's immediately just add the gesture recognizer right there okay? nd we know that this didSet right her. Okay we already saw this in the demo I just did
+
+this didSet when you're doing it to an outlet this gets called only once. It gets called when iOS first hooks up that view. Perfect time to go add a gesture
+
+recognizer okay? So we're gonna do that. First, we are going to create the pan gesture recognizer, okay? Here's a concrete subclass of UI gesture recognizer called
+
+PanGestureRecognizer, it takes two arguments here, the first is who is going to handle this gesture when I recognize it. So this pangesture recognizer is saying
+
+hey if I recognize a pan, who's going to handle it form me. The answer is self, so that's the controller. Okay? This is an outlet in the controller, so the tartget
+
+self means that controller is going to handle this pan itself. Okay? The second argument here, is what method do you want me to invoke in self when this gets
+
+recognized. Now there's some kind of funky syntax here, this has to be an objective-C runtime compatible selector okay? That just means a selector, a method
+
+that is visible to the objective-C runtime now for this to be visible to runtime, this method must be in a class inherits from NSObject. Remember I was talking
+
+about that NSObject thing, and sometimes you're going to need it, well here you would need it. Now you won't usually care about that here, because this is
+
+almost always being handled by either a UIViewController which definately inherits from NSObject, or a UIView, which definately inherits from NSObject right?
+
+So usually don't care. Okay? Not usually going to be trying to send this to some object that's a swift object that doesn't inherit from NSObject. but this syntax
+
+here means create an objective-C compatible selector. Okay? Selector just means kind of identifiers for method and here is just a class, a . and then the name
+
+of the method including the argument names. Don't forget the argument names. Now this pan method that I'm going to show you on the next screen, it has one argument
+
+that argument is the pan gesture recognizer. So just like when we have target action and we have a button that has the sender is sending itself, same thing here.
+
+When we have a pan gesture recognizer and it starts to recognize, it sends this pan method here to the view controller with itself as the argument. Now you might say
+
+why is this underbar right here. Why don't I have the name of whatever this first keyword is and that's because I don't really care what that name is, I just want to
+
+make it clear I want the version of pan that has one argument. Now if I had multiple pan methods, that had differenet first names there, then I would have to put
+
+the name in there. But I can put underbar here, because underbar in Swift means; I don't care whatever. Okay? I don't really care what it is, its a substitute
+
+for I don't care. But I don't really care. I just want to introduce that you can do this underbar here but if I don't put this colon and underbar here then it's gonna
+
+try to call a pan method that has no arguments so be careful. If you want the one with the gesture recognizer as an argument you gotta put that in there. Okay?
+
+So that's specifying the selector. And then I just turn on this recognizer by taking the view, this is the UIView this pannable view, okay? And adding this, thing
+
+I created, as a gesture recognizer okay? As soon as I do that, this view is going to start recognizing pan gestures okay? And when it does, its gonna send this method,
+
+to self, which is the controller. Got it? Okay. Make sense? Alright so now lets talk about how we implement this handler. This method right here this pan thing. Okay?
+
+What does that look like to implement. To understand how we're going to implement such a method we need to understand a little bit more about the contrete subclasses of
+
+UIGestureRecognizer so let's look at pan. Okay? So pan, UIPanGestureRecognizer, it has a few methods on it that are specific to panning, okay? For example, it has
+
+translation in view. It takes a UIView and tells you how far the pan has moved in that views coordinate system okay? Which is exactly what you want for pan because
+
+you wanna know where you are so you can know how far you moved. It even has veloctiy and it will tell you how fast the pan is happening okay? If you're ripping it around
+
+versus going really really really slow like you're in a drawing app you might be really slow you might be going really carefully and if you're zipping around now you're
+
+making big arcs or something who knows. And it even has setTranslation which is setting this. Why would you ever want to set this? Well, if you don't set this okay?
+
+Then this translationView is going to be the cumulative translation in view. Okay? It's how far the pan has moved since it started the cumulatitive thing. It you what you
+
+want instead is how much it changed since last time you told me about it, okay? You can constantly reset this thing to 0. If you constantly reset this translation to 0
+
+then the next time you get it, it's going to be the translation incremental okay? Tiny liitle tiny bit it moved since the last time. So you'll see in the demo
+
+that we will reset this to 0 every time because we just want the incremnetal panning. Okay? All right? So, the abstract super class of your  UIPanGesture also provides
+
+a very important VAR which is the state. Okay? I told you these gesture recognizers goes through a state machine and this is how you can find out in your handler,
+
+what state the gesture is it. So they all start around in this state possible. Okay? UIGestureRecognizerState . possible. Then, for a discrete gesture like a swipe
+
+once the swipe happens, it immediately goes to the state recognized. Okay? It recognized the swipe. So you're handler gets called. The state will be recognized.
+
+For a continuos gesture like a pan or a pinch, okay? It goes to the state began as soon as the pan gets held down and as soon as the pan starts moving, it keeps going
+
+to the state changed. Changed, changed, changed the handler keeps getting called over and  over and over and over with changed okay? And everytime, this tranlation is
+
+chaning okay? And then when the finger goes up, then it goes to ended. Makes sense? Now there's a couple other states here failed and cancelled like if you're doing
+
+the middle of a pan and a phone call comes in okay? Then your gesture is going to get canceled. Okay? So you might or might not have to deal with that. If you're dealing
+
+with your pan incrementally, then who cares if it gets interrupted? You were moving the thing incrementally. If you're dealing with out pan with some big thing at the end when
+
+the pan ends, then you better do in here what you're going to do when it ended. Okay? But a lot of times you don't care because you're doing all the work in change so
+
+cancelled and failed is just like ended but you don't notice the finger doing up. Well, no big deal. Okay? So now that I have all this information about an pan gesture
+
+how do I make a handler that handles a pan gesture? Okay? This is what the code would look like, this code is going to be in my controller because I said the controller is
+
+going to handle the pan and first I'm going to look at the state. Okay? Of the  Okay. Yeah Sorry. Here's that pan underbar colon you see this pan takes an argument
+
+Okay? Instead of underbar there I could have put gesture, because that's wha they called it here, gesture. But I don't care but this one takes an argument. You could have
+
+pan with no arguments here and nothing there, and this would not pass the pan gesture along as an argument but here I need the pan gesture becasue I need to know how far the pan has gone
+
+Okay? So next I'm going to switch on the state that the pan gesture is in, and if it's changed, or ended, then I'm going to update somthing in my controller. Otherwise, I'm
+
+gonna ignore it. Okay? If it's cancelled or failed or if it began, I don't care. I'm only interested when it moves. Okay? So that's why I'm only looking at this now
+
+I wanna show you this kind of cool thing in switch hopefully you've got this in you'r homework but there's this thing fallthrough, remember that Swift cases don't fallthrough
+
+to the next case as they do in C. Okay? But you can force them to fall through with fallthrough. Now I probably wouldn't write code like this, I would just say case .Changed, .Ended
+
+Okay? That's easier way to do this but I just wanted to show you fallthrough. Okay? All right? So here, inside, when things haved changed or ended, I'm going to get the translation
+
+in the pannableView. Remember this is that outlet, I'm gonna get that translation from the gesture. And then I'm gonna go and update something that depends on where the pan is
+
+I've got, I know where the pan, how far it has moved, so I'm just going to update what something that needs that and then I'm going to set the translation back to zero. Okay?
+
+It also could be CGPoint .0 if you want but I'm going to set it back to zero so the next time I get called my handler, next time it comes around, this translation will be the
+
+incremental translation from the last time it sent it to me. Everybody get that? Okay? Alright, so that's it. That's what the handler looks like. Pretyy straightforward. Okay
+
+We'll see this in the demo, it's not too bad. Okay? Let's breifly talk about some of the other concrete gestures beside pan, there's pinces, pinches is two fingers down pinching in
+
+and out like this. Okay? And here, what you're getting instead of the translation is the scale so if I start my fingers here, and I bring them out twice as wide, that would be
+
+a scale of two if started here moving in halfway, that a scale .5. So I'm scaling whatever on my screen, and again I can get velocity. How fast I'm pinching. Rotation is two fingers
+
+turning them okay? Like you're turning a knob and it'll tell you how many radians you've turned. And again, velocity, how fast you're turning. Swipe gesutre, okay? The swipe
+
+gesture usually have to configure before you use it. You have to say you want a left going swipe, right going swipe, swipe up or down. And also two fingers swipe or one finger,
+
+or three fingers. You have to configure that, and then you add the gesture recognizer and it will only recognize it if all those things are true. Two finger, swipe up. Past all the has to be
+
+two-finger swipe up otherwise it doesn't recognize it. That's swipe. Tap which seems like it would be discreet, but is not quite a discreet gesture. But you also configure it with how many taps
+
+was it a single tap, or a double tap and two fingers or one. And here, you're going to look for .Ended to find out when the tap has happened. Okay? That's because a tap actually has
+
+intermediate things going on like a Double tap. The first tap and then the second tap and it might go through a state change that will call your handler but it's not done yet. Okay?
+
+And you can't look at recognized that recognized with tap because it's not discrete gesture becaus eit goes through those intermediate phases. So you will look for .Ended with tap. Okay? 
