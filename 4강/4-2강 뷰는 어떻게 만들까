@@ -1,0 +1,455 @@
+All right, creating views,
+
+좋아, 뷰는 어떻게 만들까?
+
+okay, most of the time you're creating views in your storyboard by draggin them out
+
+대부분은 아마 뷰를 스토리보드에서 드래그하는 방식으로 만들꺼야
+
+Now if you have a custom view that's drawing something custom,
+
+만약 너가 너만의 특별한 것을 그리는 특별한 뷰가 있다면
+
+like today we're gonna do a thing where we draw a face view,
+
+오늘같이 얼굴을 그리는 뷰 말이야
+
+it gonna be a view Okay Looks like this, got a coupple eyes.
+
+얼굴 뷰는 뷰일것이고, 이렇게 생겼을거야. 눈이 2개 있고,
+
+Smiley face, okay? I'm drawing, it's got a skull there. When
+
+웃는 얼굴이야. 여기에 두개골도 그리고.
+
+I'm drawing this, there's no face view in the object palate, right?
+
+내가 이걸 그리자고 했을때, XCode의 오브젝트 팔레트에는 얼굴 뷰가 없어
+
+I can't drag that out into my storyboard.
+
+스토리보드로 드래그 할 수 없는거지
+
+So, how do I get my face view to appear somewhere in my storyboard.
+
+그렇다면 어떻게 스토리보드에 얼굴 뷰를 집어 넣을 수 있을까?
+
+Well, the answer is, I'm going to drag out a generic view, okay,
+
+답은, Generic 뷰를 끌어온다음에
+
+a generic UI view, unsubclassed UI view, and then
+
+Generic 뷰는 상속받지 않은 UIView 객체야
+
+I'm going to change it, edit it in this identity inspector
+
+Generic 뷰를 아이덴티티 인스펙터에서 수정할 거야
+
+which I'll show you in the demo to to change the class of it,
+
+이건 다음강인 데모에서 보여줄건데, 이 뷰의 클라스를 바꿔서
+
+so it's a subclass of UI view.
+
+UIView의 자식 클라스로 만들거야.
+
+And it's in that subclass of UIvew that I'm gonna put all my drawing code,
+
+그리고 그 자식 클라스에서 모든 그림을 그리는 코드를 집어넣을거야
+
+all my face drawing code, okay?
+
+얼굴을 그리는 코드 말이야.
+
+Now on rare occasion you will create a view in code, okay.
+
+뷰를 코드상에서 생성하는 일을 굉장히 드물어
+
+You do that just by doing, calling UIView's liitle constructor here.
+
+UIView의 생성자를 호출하는 이 방법을 사용하는데
+
+You're gonna use the one with frame, not the one with coder,
+
+Coder를 인수로 받는 생성자가 아니라 Frame을 인수로 받는 걸 사용한다는 걸 명심해
+
+okay. You can do UIView with no arguments,
+
+물론 UIView를 인수 없이도 생성할 수 있어
+
+that means the tiny little UIView.
+
+하지만 넓이가 없는 UIView가 생성이 되겠지
+
+You'll have to set it's frame otherwise
+
+따라서 후에 Frame을 지정해줘야 할거야
+
+So here's what it looks like to create a view in code.
+
+뷰를 코드로 생성하는건 이렇게 하는거야
+
+Here I just created a rectangle which is 20/20, 150.
+
+여기에 나는 20, 20, 100, 50짜리 직사각형을 만들었는데
+
+So that's like 20, 100, 50. So this is this rectangle right about there and the, so
+
+이건 (20, 20) 좌표에서 너비 100, 높이 50인 직사각형을 만든거야
+
+then I'm creating a view. This view happens to be a UI label.
+
+이건 뷰를 만드는건데, 이 뷰는 UILabel이고
+
+UI label is just a sub class UI view.
+
+UILabel은 UIView에서 상속을 받지
+
+So it's UI button, so it's UI stack view.
+
+그래서 UIButton 인거고 UIStackView이기도 해.
+
+All of these things are just subclasses of UI view.
+
+이 모든것은  UIView에서 상속을 받는 클라스들이야
+
+So I'm creating a subclass UIView using that frame thing okay?
+
+그래서 UIView의 자식 클라스를 Frame을 이용한 생성자로 만드는 중이야
+
+I'm even setting the labels text, all right?
+
+그리고 더해서 Label의 텍스트까지도 지정해줬어
+
+Then I'm goning to say view, let's say this code is in the view controller,
+
+그리고 이렇게 쓸건데, 이 코드는 뷰 컨트롤러 안에 있다고 생각하면 좋아
+
+say view, which is that top-level thing add subview the label and then all
+
+뷰, 이건 최상위 뷰이고, 여기에 addSubview()에 레이블을 넣어주면
+
+of a sudden it's gonna appear here, okay?
+
+화면위에 바로 나타나게 되지
+
+Here's that 20, 20 And it's 100 by 50, okay?
+
+밑에 화면에 보이는게 (20, 20)에 너비 100 높이 50인 직사각형이야
+
+That it. Very simple to add views with code Add subview.
+
+이게 다야. 코드로 뷰를 넣는건 매우 간단하지
+
+All right custom views. So why would I want to create my own custom view subclass?
+
+자 이제 커스텀 뷰. 왜 커스텀 뷰를 만드는 걸까?
+
+Obviously you want to have a smiley face, okay?
+
+당연하게도 얼굴을 그리기 위해서지
+
+So you need to create your own custom one to do that.
+
+따라서 얼굴을 그리러면 너만의 커스텀 뷰가 필요로해
+
+And you might have some pinches or swipes or something, which we'll do next week.
+
+게다가 거기에 집는 모션이나, 미는 모션을 인식해야할 수도 있지. 이건 다음주에 할거야
+
+For your face, you need a custom view to do those things, okay?
+
+그래서 얼굴을 위해서는 커스텀뷰가 꼭 필요해
+
+So let's talk about the drawing end of that today.
+
+오늘은 어떻게 얼굴을 그리는 지에 대해서 알아보자
+
+How do I draw? It's really easy. You're just gonna subclass UIView and
+
+어떻게 그리냐고? 매우 쉬워. UIView를 상속받은다음에
+
+you're gonna override this one method, drwaRect, okay?
+
+drawRect()라는 메소드만 Override해주면 그릴 수 있어
+
+DrawRect takes one argument, which is an optimization only,
+
+DrawRect는 하나의 인자를 받는데, 이건 최적화를 위한 인자야
+
+which is what part of the view the system want you to draw.
+
+이건 뷰의 어느 부분을 그리냐에 대한 인자야
+
+It might want you to draw the whole thing.
+
+뷰의 전체를 모두 그릴 수도 있지만,
+
+But maybe it just wants you to draw the eyes, okay?
+
+눈만 그리고 싶을 수도 있지.
+
+Now you can ignore that and draw the whole thing anyway, and it will work.
+
+만약 이걸 무시하고 모든 걸 다 그릴 수도 있어. 물론 이것도 작동해
+
+Or if you can efficiently just draw the eyes, then you might decide to just draw the eyes, okay.
+
+혹은 만약 너가 효율적으로 눈만 그리고 싶다고 한다면, 눈만 그려도 무관해
+
+But this argument right here is purely an optimization. It can be ignord if you want.
+
+이 인자는 전적으로 효율을 위한 인자이고 무시해버려도 상관없어
+
+Okay, never call this method.
+
+자. 이 메소드는 절대 호출하지마
+
+If you ever call this method in the code you submit for homework,
+
+만약 이 메소드가 너의 과제물에 포함되어 있으면
+
+I'll be personally going over and slapping you on the wrist okay?
+
+내가 돌아다니며 직접 손목을 때리겠어
+
+Because this, this is never, ever, under any circumstances no exceptions are you calling this thing.
+
+왜냐하면 이 메소드는 절대, 결코, 무슨 상황이든지, 예외없이 호출하면 안되는 메소드야
+
+The system calls drawRect
+
+시스템, 즉 iOS가 drawRect를 호출해
+
+You never call it. So, how do you get your face to draw?
+
+너는 절대 이걸 호출하면 안돼. 그렇다면 어떻게 얼굴을 그려지게 하지?
+
+If you want it drawn. Let say the eye is closed. And you want to draw the face so the eyes are closed.
+
+만약에 너가 이걸 그리고 싶다면, 예를 들어 눈이 감긴걸 그리고 싶어
+
+Well you call this method here set needs display on your view.
+
+그렇다면 이 setNeedsDisplay() 메소드를 호출하면 돼.
+
+And that tells the system, 'hey this view needs to be redrawn' .
+
+이 메소드는 시스템에게 "이 뷰는 다시 그릴 필요가 있어"라고 전달하는 역할을 하지
+
+And the view at some point in the future when its appropriate, will call you drawRect, okay?
+
+그리고 뷰는 미래에 적절한 시점에 drawRect 를 대신해서 호출을 해주지
+
+Now why is it done this way?
+
+자 왜 이런식으로 되어 있냐고?
+
+Well if you think about it. Your view lives in an environmnet where there might be subviews and you're in Superview, and they're overlapping.
+
+잘 생각을 해보면, 너의 뷰는 자식 뷰도 있고, 부모 뷰도 있을 수 있는 상황에 있단 말이지
+
+There's all kinds of things happening.
+
+여기에는 여러가지 일들이 동시에 일어나고 있어
+
+And you can't just run along and redraw one of those things okay
+
+근데 너가 그 중 하나의 뷰를 다시 그릴 수는 없는거야
+
+they might be transparent, seeing through to each other, the system has to manage that, okay
+
+개중에는 투명한 뷰도 있고, 서로 연관되어 있는 뷰들도 있겠고, 시스템이 이걸 관리를 해야해
+
+and there also performance reasons to do it.
+
+또, 성능 문제도 있지
+
+You might change, close the eyes, start frowning, etc, the nose starts running, I don't know, all those things are happening all at once,
+
+너가 눈을 감게 하거나, 인상을 쓰거나, 콧물을 흘리는 등등 이런 상황이 동시에 진행되는데
+
+we don't wanna redraw every single time.
+
+모든걸 매번 다시 그리고 싶지는 않지
+
+The one of them changes. You wanna wait until all of them has changed, then draw once your new face, okay?
+
+하나가 바뀌면, 모든게 바뀔때까지 기다린 후에 한꺼번에 그리는 거지
+
+So the system is the one that decides.
+
+그건 시스템이 결정하는 사안이야
+
+Now this is setNeedsDisplayInRect().
+
+이건 setNeedsDisplayInRect()야
+
+Just lets you set this little rectangle right here
+
+이건 이것은 인자로 받는 직사각형 부분만 그리게 해주는 메소드야
+
+So this is an optimized version, an optimized version of setNeedsDisplay() in Rect.
+
+따라서 이건 setNeedsDisplay()의 최적화된 버젼이라고 할 수 있지
+
+Maybe just call it with the eyes. Okay if you know that only the eyes have changed.
+
+예를 들어 눈만 바뀌는 걸 알때 눈의 위치로만 호출을 해준다던지말이야
+
+But this is how you get a view to redraw, okay?
+
+이게 뷰를 다시 그리는 방법이야
+
+All right, so how do I implement this drawRect thing? okay?
+
+좋아. drawRect는 어떻게 구현할까?
+
+I got this drawRect thing, how do I implement it? There's two ways, really.
+
+여기에는 2가지 방법이 있는데
+
+There is a, kind of a C-like, a non-object oriented.
+
+하나는 C언어와 비슷한 방식의, 객체지향이 아닌 방법이 있어
+
+In Swift, it's just functions, global functions way of doing it called Core Graphics. Okay?
+
+스위프트에서는, 전역함수로 처리하는 방식인데 이걸 Core Graphics라고 불러
+
+Core graphics and then there's an object oriented way using a class called UIBezierPath, okay?
+
+그리고 UIBezierPath라는 클라스를 쓰는 객체지향적인 방법이 있지
+
+They're both using Core Graphics underneath the covers
+
+두 방법 다 밑에서는 Core Graphics를 쓰는 방법이기 때문에
+
+so I'm gonna talk a little bit about the Core Graphics Concepts and
+
+Core Graphics 개념을 좀 설명을 하고
+
+they're going to apply to UIBezierPath as you can see.
+
+UIBezierPath에 어떻게 적용이 되는지 설명하도록 할게
+
+So what are the concepts of Core Graphics? Very Simple.
+
+Core Graphics의 개념이 뭐냐면 매우 간단해
+
+First, you're gonna get a context to draw in.
+
+첫번째로, 그릴 수 있는 Context가 필요해
+
+So that context might be drawing on screen.
+
+이 Context는 화면상에 일수도 있고,
+
+That's the context you want if you're in drawRect,
+
+만약 drawRect를 쓴다면 이 Context가 사용되겠지
+
+But you could have other contexts like drawing for a printer, drawing into an off screen buffer, okay?
+
+하지만 다른 Context를 가질 수도 있어. 예를 들어 프린터를 위해 그린다던가, 화면 위가 아닌 곳에 그린다던가
+
+Those are all contexts of draw so that's the first thing you do.
+
+저것들은 모두 그릴 수 있는 Context이기 때문에 이걸 정하는게 첫번째야
+
+In if you're using this kind of C-like function one
+
+만약 너가 C언어와 같은 함수를 이용할 것이라면
+
+you're gonna use this UIGraphicsGetCurrentContext() inside of drawRect
+
+drawRect의 인자로 UIGraphicsGetCurrentContext()라는 메소드를 사용할거야
+
+to get the context appropriate for drawRect, okay?
+
+drawRect에 알맞는 Context를 받기 위해서지
+
+So then number two is you create paths.
+
+그리고 두번째 할일은 경로를 만드는거야
+
+So these paths are made of arcs and lines, rectangles, circles, whatever.
+
+이 경로들은 호나, 직선, 직사각형, 원등으로 구성되고
+
+putting together these Paths, this path that you're building, okay?
+
+이것들을 조합해서 너가 만드는 경로를 만들게 되지
+
+And that's the thing that's gonna be drawn, okay? So you build this path.
+
+이게 화면에 그려지는 거야
+
+Then you set attributes that you're gonna draw this path with like, the color of the lines.
+
+그 뒤에 이 경로를 그리는 데 필요한 속성들을 설정해줘, 예를 들어 라인의 색이나
+
+Any fonts if you're doing text. Textures if you're filling things with textures.
+
+텍스트로 작업하고 있다면 폰트나, 텍스쳐가 있다면 텍스텨라든지
+
+Linewidths, linecaps, those kinds of things.
+
+선의 굵기라던지, 선끝의 마무리라던지 말이야
+
+You set all those things up and then you stroke the path
+
+이런 속성들을 모두 설정해주고 경로를 그어주는거야
+
+which means draw a line everywhere the path is or
+
+이건 경로가 있는 모든곳에 직선을 그리거나
+
+you fill the path which means fill in the space contained by the path with some color or texture, okay?
+
+경로로 닫힌 영역에 정해진 색이나 텍스쳐로 채우는 것을 뜻해
+
+That's it, this is the basic concept of how you draw.
+
+이게 iOS에서 화면에 그리는 기본적인 개념이야
+
+Now UIBezierPath does all these things the same, okay?
+
+UIBezierPath 클라스는 모든걸 같은 방식으로 처리해
+
+Its just that UIBezierPath automatically know the context to draw in so you don't have to worry about context.
+
+하지만 UIBezierPath는 자동으로 Context을 처리해줄 수 있기 때문에 걱정할 필요가 없지
+
+It has methods to draw. Lineto, arcto, those kind of things instead of
+
+UIBezierPath는 그리는 여러 메소드들을 가지고 있지. 특정한 함수 대신에
+
+having discrete functions. You know these global functions
+
+Lineto, arcto 이런 것들 말야. 너가 알고 있는 그 전역 함수 맞아.
+
+You use UIColor to set the stroke and fill colors. This is a class we'll talk about.
+
+UIColor, 붓질이나 색을 입히는 걸 준비해주는 애 얘를 쓰는거야. 앞으로 더 이야기 할 거야
+
+and then when it comes to stroke and fill, those are methods on UIBezierPath.
+
+Stroke/Fill은 UIBezierPath에서 지원하는 메소드들이고
+
+So UIBezierPath just encapsulates all that core graphics stuff into a nice class.
+
+따라서 UIBezierPath는 Core Graphics 내용을 모두 하나의 클라스로 추상화한다고 보면 좋아
+
+It's nice because you can find everything you want.
+
+너가 원하는 것들은 모두 지원하기 때문에 매우 유용하지
+
+Basically everything you want to do to draw except for colors, fonts, texts, and imgaes.
+
+색, 폰트, 텍스트, 이미지 빼고 뭘 그리고 싶다면 UIBezierPath를 쓰는게 좋아.
+
+Those four things are not in UIBezierPath but all other drawing is in there.
+
+색, 폰트, 텍스트, 이미지는 UIBezierPath에 들어있지는 않지만 나머지 그리는 것과 관련된것은 모두 들어있지.
